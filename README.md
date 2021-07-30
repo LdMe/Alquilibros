@@ -18,7 +18,7 @@ Por cuestiones legales.
 Los libros y DVDs tienen un rango de edad con el que se pueden alquilar. Los libros y dvs solo los pueden alquilar
 las personas con la edad recomendada:
 
-* Categoría Niños, solo usuarios de 0 a 12 años **(cambiado a *niñó*)**
+* Categoría Niños, solo usuarios de 0 a 12 años **(cambiado a *niño*)**
 * Categoría Jóvenes de 13 a 17 **(cambiado a *joven*)**
 * Categoría Adultos de 18 o más **(cambiado a *adulto*)**
 * **Categoría *todos* para cualquier edad**
