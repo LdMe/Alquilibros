@@ -16,10 +16,7 @@ $alquilibro->UnreserveBook("Peter Pan",$user1);
 
 $alquilibro->reserveDvd("Peter Pan",$user1);
 $alquilibro->UnreserveDvd("Peter Pan",$user1);
-foreach ($alquilibro->getAvailableBooks() as $title => $book) {
-	echo "title ". $title ."\n";
-	echo $book . "\n";
-}
+
 /*
 $alquilibro->intAddItem();
 */
