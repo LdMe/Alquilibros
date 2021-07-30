@@ -1,6 +1,8 @@
 <?php
 namespace Item;
-define("DEBUG",true);
+use User;
+
+
 class Stock {
 	/**
 	 * @var array
@@ -11,6 +13,37 @@ class Stock {
 	 */
 	private $available = [];
 	
+    /**
+     * @var int
+     */
+    const OK = 0;
+    /**
+     * @var int
+     */
+    const NOT_FOUND = 1;
+    /**
+     * @var int
+     */
+    const EXISTS = 2;
+    /**
+     * @var int
+     */
+    const RESERVED = 3;
+    /**
+     * @var int
+     */
+    const NOT_RESERVED = 4;
+    /**
+     * @var int
+     */
+    const NOT_RESERVED_BY_USER = 5;
+    /**
+     * @var int
+     */
+    const NOT_SUITABLE = 6;
+    
+    
+
 
     /**
      * @return array
@@ -22,89 +55,77 @@ class Stock {
     /**
      * @param Item $item
      *
-     * @return bool
+     * @return int
      */
     public function addItem(Item $item)
     {
-    	if(!in_array($item,$this->available))
+    	if(!array_key_exists($item->getName(),$this->available))
     	{
+            // el elemento ya ha sido reservado
     		if(in_array($item,$this->reserved))
     		{
-    			if(DEBUG){
-    				echo $item->getClassName() . " '".$item->getName() ."' already reserved\n";
-    			}
-    			return false;
+    			return self::RESERVED;
     		}
-    		$this->available[] = $item;
-    		if(DEBUG)
-	    	{
-	    		echo $item->getClassName() . " '".$item->getName() ."' added to stock\n";
-	    	}
-    		return true;
-    	}
-    	if(DEBUG)
-    	{
-    		echo $item->getClassName() . " '".$item->getName() ."' already exists\n";
-    	}
-    	return false;
+    		$this->available[$item->getName()] = $item;
+            return self::OK;
+        }
+        return self::EXISTS;
+    }
+
+
+    /**
+     * @param string $title
+     * @param User $user
+     *
+     * @return int
+     */
+    public function reserveItem(string $title, User $user)
+    {
+        $userId = $user->getId();
+        // Si el usuario ya ha reservado, no puede reservar otra vez
+        if(array_key_exists($userId,$this->reserved))
+        {
+            return self::RESERVED;
+        }
+        // el item está disponible para alquiler
+        if(array_key_exists($title,$this->available))
+        {
+            $item = $this->available[$title];
+            // si la edad del usuario no es adecuada, devuelve falso
+            if(!$item->isApt($user->getAge()))
+            {
+                return self::NOT_SUITABLE;
+            }
+            $this->reserved[$userId] = $this->available[$title]; 
+            
+            unset($this->available[$title]); 
+            return self::OK;
+        }
+        return self::NOT_FOUND;
+
     }
 
     /**
-     * @param Item $item
+     * @param string $title
+     * @param User $user
      *
-     * @return bool
+     * @return int
      */
-    public function reserveItem(Item $item)
+    public function unReserveItem(string $title, User $user)
     {
-    	if(in_array($item,$this->reserved))
-    	{
-    		if(DEBUG)
-    		{
-    			echo $item->getClassName() . " '".$item->getName() ."' already reserved\n";
-    		}
-    		return false;
-    	}
-    	if(in_array($item,$this->available))
-    	{
-    		$this->reserved[] = $item;
-    		$index = array_search($item, $this->available);
-    		array_splice($this->available, $index, 1);
-    		if(DEBUG)
-	    	{
-	    		echo $item->getClassName() . " '".$item->getName() ."' reserved successfully\n";
-	    	}
-    		return true;
-    	}
-    	if(DEBUG)
-    	{
-    		echo $item->getClassName() . " '".$item->getName() ."' doesn't exist\n";
-    	}
-    	return false;
-    }
+        $userId = $user->getId();
+        if(array_key_exists($userId,$this->reserved))
+        {
+            if($title != $this->reserved[$userId]->getName())
+            {
+                return self::NOT_RESERVED_BY_USER;
+            }
+            $this->available[$title] = $this->reserved[$userId];
+            unset($this->reserved[$userId]);
+            return self::OK;
+        }
+        return self::NOT_RESERVED;
 
-    /**
-     * @param Item $item
-     *
-     * @return bool
-     */
-    public function unReserveItem(Item $item)
-    {
-    	if(in_array($item,$this->reserved))
-    	{
-    		$this->available[] = $item;
-    		$index = array_search($item, $this->reserved);
-    		array_splice($this->reserved, $index, 1);
-    		if(DEBUG)
-	    	{
-	    		echo $item->getClassName() . " '".$item->getName() ."' returned to stock\n";
-	    	}
-    		return true;
-    	}
-    	if(DEBUG)
-    	{
-    		echo $item->getClassName() . " '".$item->getName() ."' is not reserved\n";
-    	}
-    	return false;
     }
 
     /**
@@ -113,5 +134,13 @@ class Stock {
     public function getAvailable()
     {
     	return $this->available;
+    }
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function userHasAreserve(User $user)
+    {
+        return array_key_exists($user->getId(),$this->reserved);
     }
 }

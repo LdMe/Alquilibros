@@ -1,7 +1,7 @@
 <?php
 
 namespace Item;
-include_once("age.php");
+use AgeRange;
 
 abstract class Item {
 	/**
@@ -9,20 +9,19 @@ abstract class Item {
 	 */
 	private $name;
 	/**
-	 * @var Age
+	 * @var AgeRange
 	 */
-	private $age;
+	private $ageRange;
 	/**
 	 * @var int
 	 */
-	private $price;
+	private static $price = 0;
 	
 
-	public function __construct($name,$age,$price)
+	public function __construct($name,$ageRange)
 	{
 		$this->name = $name;
-		$this->age = $age;
-		$this->price = $price;
+		$this->ageRange = $ageRange;
 	}
 
     /**
@@ -34,20 +33,17 @@ abstract class Item {
     }
 
     /**
-     * @return Age
+     * @return AgeRange
      */
     public function getAge()
     {
-        return $this->age;
+        return $this->ageRange;
     }
 
     /**
      * @return int
      */
-    public function getPrice()
-    {
-        return $this->price;
-    }
+    public static abstract function getPrice();
 
     /**
      * @return string
@@ -55,5 +51,20 @@ abstract class Item {
     public function getClassName()
     {
     	return str_replace("Item\\", "", get_class($this));
+    }
+    /**
+     * @param int $age
+     * @return bool
+     */
+    public function isApt(int $age)
+    {
+        return $this->ageRange->isApt($age);
+    }
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return "class: " . $this->getClassName() . ", name: " . $this->name . ", price: ". number_format($this->getPrice() /100.0,2) . "€, age range:{". $this->ageRange."}";
     }
 }

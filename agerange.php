@@ -1,6 +1,6 @@
 <?php
 
-class Age {
+class AgeRange {
 	/**
 	 * @var int
 	 */
@@ -46,4 +46,13 @@ class Age {
 	{
 		return $this->maxAge;
 	}
+
+	/**
+     * @return string
+     */
+    public function __toString()
+    {
+    	$maxAge = $this->maxAge > -1 ? $this->maxAge : " no limit";
+        return " name: " . $this->name . ", min age: ". $this->minAge . ", max age: " . $maxAge ;
+    }
 }
