@@ -28,7 +28,7 @@ class Alquilibros
         $this->ageRanges["niño"] = new AgeRange("niño",0,12);
         $this->ageRanges["joven"] = new AgeRange("joven",13,17);
         $this->ageRanges["adulto"] = new AgeRange("adulto",18);
-        $this->ageRanges["default"] = new AgeRange("default",0);
+        $this->ageRanges["todos"] = new AgeRange("todos",0);
     }
 
     //-------------------------------- BOOKS ------------------------------------------------------------------//
@@ -48,7 +48,7 @@ class Alquilibros
      */
     public function addBook(string $title, string $age)
     {
-        $ageRange = array_key_exists($age, $this->ageRanges) ? $this->ageRanges[$age] : $this->ageRanges["default"];
+        $ageRange = array_key_exists($age, $this->ageRanges) ? $this->ageRanges[$age] : $this->ageRanges["todos"];
         $book = new Book($title, $ageRange);
         $result = $this->books->addItem($book);
         echo $this->showMessage($result,"libro",$title,"añadido");
@@ -111,7 +111,7 @@ class Alquilibros
      */
     public function addDvd(string $title, string $age)
     {
-        $ageRange = array_key_exists($age, $this->ageRanges) ? $this->ageRanges[$age] : $this->ageRanges["default"];
+        $ageRange = array_key_exists($age, $this->ageRanges) ? $this->ageRanges[$age] : $this->ageRanges["todos"];
         $dvd = new DVD($title, $ageRange);
         $result = $this->dvds->addItem($dvd);
         echo $this->showMessage($result,"DVD",$title,"añadido");
