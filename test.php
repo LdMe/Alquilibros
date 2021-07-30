@@ -20,4 +20,6 @@ foreach ($alquilibro->getAvailableBooks() as $title => $book) {
 	echo "title ". $title ."\n";
 	echo $book . "\n";
 }
-
+/*
+$alquilibro->intAddItem();
+*/

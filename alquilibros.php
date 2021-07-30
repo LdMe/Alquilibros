@@ -242,4 +242,27 @@ class Alquilibros
             return "Error desconocido.\n";
         }
     }
+
+    //------------------------------------- INTERACTIVE ---------------------------------------//
+
+    public function intAddItem()
+    {
+        echo "Añadir un nuevo elemento.\n";
+        echo "Libro : 0\nDVD: 1\n";
+        $type = readline();
+        $title = readline("Título: ");
+        echo "Rango de edad:\n";
+        foreach ($this->ageRanges as $age) {
+            $maxAge = $age->getMaxAge() > -1 ? $age->getMaxAge() : " sin límite";
+            echo  $age->getName() . ": [".$age->getMinAge() ." a ".$maxAge."]\n";
+        }
+        $age = readline();
+        if($type == 0) {
+            $this->addBook($title,$age);
+        }
+        else {
+            $this->addDvd($title,$age);
+        }
+
+    }
 }
