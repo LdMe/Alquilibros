@@ -20,6 +20,11 @@ class Alquilibros
 	private $employees = [];
 
     private $ageRanges = [];
+    /**
+     * @var User
+     */
+    private $intUser = null;
+
 
     public function __construct()
     {
