@@ -365,4 +365,26 @@ class Alquilibros
         }
         return $result;
     }
+    public function intUnreserveItem()
+    {
+        if($this->intUser == null)
+        {
+            echo "Debes iniciar sesión para poder devolver un elemento.\n";
+            return;
+        }  
+        if($this->books->userHasAReserve($this->intUser))
+        {
+            $title = $this->books->getUserReservedTitle($user);
+            $this->books->unReserveItem($title,$user);
+            return;
+        }
+        if($this->dvds->userHasAReserve($this->intUser))
+        {
+            $title = $this->dvds->getUserReservedTitle($user);
+            $this->dvds->unReserveItem($title,$user);
+            return;
+        } 
+        echo "No tienes ninguna reserva pendiente de devolver.\n";
+        return;
+    }
 }
