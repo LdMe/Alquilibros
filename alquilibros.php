@@ -387,4 +387,36 @@ class Alquilibros
         echo "No tienes ninguna reserva pendiente de devolver.\n";
         return;
     }
+
+    public function menu()
+    {
+        while(true)
+        {
+            echo "Bienvenido a Alquilibros, ¿qué deseas hacer?\n";
+            echo "0: Añadir usuario\n1: Registrarse como empleado\n2: Añadir libro / DVD\n3: Reservar libro / DVD \n4: Devolver reserva\n5: salir\n";
+            $option = readline();
+            if($option >= 0 && $option <= 5)
+            {
+                switch ($option) {
+                    case 0:
+                        $this->intAddUser();
+                        break;
+                    case 1:
+                        $this->intAddEmployee();
+                        break;
+                    case 2:
+                        $this->intAddItem();
+                        break;
+                    case 3:
+                        $this->intReserveItem();
+                        break;
+                    case 4:
+                        $this->intUnReserveItem();
+                        break;
+                    default:
+                        return;
+                }
+            }
+        }
+    }
 }
