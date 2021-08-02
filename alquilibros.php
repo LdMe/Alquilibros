@@ -20,6 +20,11 @@ class Alquilibros
 	private $employees = [];
 
     private $ageRanges = [];
+    /**
+     * @var User
+     */
+    private $intUser = null;
+
 
     public function __construct()
     {
@@ -248,8 +253,12 @@ class Alquilibros
     public function intAddItem()
     {
         echo "Añadir un nuevo elemento.\n";
-        echo "Libro : 0\nDVD: 1\n";
+        echo "0: Libro\n1: DVD\n";
         $type = readline();
+        if($type != 0 && $type != 1)
+        {
+            return;
+        }
         $title = readline("Título: ");
         echo "Rango de edad:\n";
         foreach ($this->ageRanges as $age) {
@@ -264,5 +273,96 @@ class Alquilibros
             $this->addDvd($title,$age);
         }
 
+    }
+    public function intAddUser()
+    {
+        echo "Iniciar sesión como usuario\n";
+        $name = readline("Nombre: ");
+        $age = readline("Edad: ");
+        $this->intUser = new User($name,$age);
+        echo "Registrado como ". $name ."\n";
+    }
+    public function intAddEmployee()
+    {
+        if($this->intUser == null)
+        {
+            echo "Para poder registrarse como usuario, primero inicia sesión como usuario.\n";
+            return;
+        }
+        $this->addEmployee($this->intUser);
+    }
+    public function intReserveItem()
+    {
+        if($this->intUser == null)
+        {
+            echo "Debes iniciar sesión para poder alquilar.\n";
+            return;
+        }
+        echo "0: Reservar libro\n1: Reservar DVD\n";
+        $type = readline();
+        switch ($type) {
+            case 0:
+                $this->intReserveBook();
+                break;
+            case 1:
+                $this->intReserveDvd();
+                break;
+            default:
+                return;
+        }     
+    }
+    public function intReserveBook()
+    {
+        $age = $this->intUser->getAge();
+        $availableBooks = $this->intGetAvailableBooks($age);
+        if(empty($availableBooks))
+        {
+            echo "No hay libros disponibles para tu edad.\n";
+            return;
+        }
+        echo "Lista de libros disponibles para tu edad:\n";
+        foreach ($availableBooks as $title => $book) {
+            echo "- ".$title . "\n";
+        }
+        $title = readline("Título: ");
+        $this->reserveBook($title,$this->intUser);
+    }
+    public function intReserveDvd()
+    {
+        $age = $this->intUser->getAge();
+        $availableDvds = $this->intGetAvailableDvds($age);
+        if(empty($availableDvds))
+        {
+            echo "No hay DVDs disponibles para tu edad.\n";
+            return;
+        }
+        echo "Lista de DVDs disponibles para tu edad:\n";
+        foreach ($availableDvds as $title => $dvd) {
+            echo "- ".$title . "\n";
+        }
+        $title = readline("Título: ");
+        $this->reserveDvd($title,$this->intUser);
+    }
+    public function intGetAvailableBooks($age)
+    {
+        $result = [];
+        foreach ($this->getAvailableBooks() as $title => $book) {
+            if($book->getAge()->isApt($age))
+            {
+                $result[$title] = $book;
+            }
+        }
+        return $result;
+    }
+    public function intGetAvailableDvds($age)
+    {
+        $result = [];
+        foreach ($this->getAvailableDvds() as $title => $dvd) {
+            if($dvd->getAge()->isApt($age))
+            {
+                $result[$title] = $dvd;
+            }
+        }
+        return $result;
     }
 }
