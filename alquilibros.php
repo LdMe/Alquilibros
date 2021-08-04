@@ -372,16 +372,18 @@ class Alquilibros
             echo "Debes iniciar sesión para poder devolver un elemento.\n";
             return;
         }  
-        if($this->books->userHasAReserve($this->intUser))
+        $user = $this->intUser;
+        if($this->books->userHasAReserve($user))
         {
             $title = $this->books->getUserReservedTitle($user);
-            $this->books->unReserveItem($title,$user);
+            $this->unReserveBook($title,$user);
+
             return;
         }
-        if($this->dvds->userHasAReserve($this->intUser))
+        if($this->dvds->userHasAReserve($user))
         {
             $title = $this->dvds->getUserReservedTitle($user);
-            $this->dvds->unReserveItem($title,$user);
+            $this->unReserveDvd($title,$user);
             return;
         } 
         echo "No tienes ninguna reserva pendiente de devolver.\n";
@@ -390,13 +392,16 @@ class Alquilibros
 
     public function menu()
     {
+        system('clear');
         while(true)
         {
+            echo "\n-----------------Alquilibros-----------------\n";
             echo "Bienvenido a Alquilibros, ¿qué deseas hacer?\n";
             echo "0: Añadir usuario\n1: Registrarse como empleado\n2: Añadir libro / DVD\n3: Reservar libro / DVD \n4: Devolver reserva\n5: salir\n";
             $option = readline();
             if($option >= 0 && $option <= 5)
             {
+                system('clear');
                 switch ($option) {
                     case 0:
                         $this->intAddUser();
