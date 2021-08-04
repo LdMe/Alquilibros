@@ -22,7 +22,4 @@ $alquilibro->UnreserveBook("Peter Pan",$user1);
 /*
 $alquilibro->intAddItem();
 */
-
-$alquilibro->intAddUser();
-$alquilibro->intAddEmployee();
-$alquilibro->intReserveItem();
+$alquilibro->menu();
