@@ -247,6 +247,4 @@ class Alquilibros
             return "Error desconocido.\n";
         }
     }
-
-   
 }
