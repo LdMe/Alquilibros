@@ -32,7 +32,7 @@ En este caso, la mayor parte del programa se ha planteado como una librería de 
 
 La clase *Alquilibros* puede añadir, alquilar, devolver y mostrar la lista de libros y DVDs. También puede añadir y mostrar empleados (usuarios con 10% de descuento).
 
-### Ejemplo de Uso
+#### Ejemplo de Uso
 ```
   $alquilibro  = new Alquilibros();
   $user1 = new User("Pepe Reina",14);
@@ -46,7 +46,7 @@ La clase *Alquilibros* puede añadir, alquilar, devolver y mostrar la lista de l
   $alquilibro->reserveDvd("Peter Pan",$user1);
   $alquilibro->unreserveDvd("Peter Pan",$user1);
   ```
-### Resultado de ejecución
+#### Resultado de ejecución
 ```
   El usuario se ha registrado como empleado.
   El libro 'Peter Pan' ha sido añadido con éxito.
