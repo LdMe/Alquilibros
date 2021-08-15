@@ -61,6 +61,25 @@ La clase *Alquilibros* puede añadir, alquilar, devolver y mostrar la lista de l
   ```
 ### Interactiva
 
-**(No terminada)**
 En esta versión se pueden utilizar todas las funcionalidades de la librería por consola. 
+
+La clase Interactive hereda de Alquilibros y añade las funcionalidades interactivas. 
+
+Para poder probar la versión interactiva, basta con llamar al método **menu** de la clase interactive (ejemplo en el archivo testInteractive.php).
+
+#### Resultado de ejecución de testInteractive.php
+
+```
+-----------------Alquilibros-----------------
+Bienvenido a Alquilibros, ¿qué deseas hacer?
+0: Añadir usuario
+1: Registrarse como empleado
+2: Añadir libro / DVD
+3: Reservar libro / DVD 
+4: Devolver reserva
+5: salir
+
+```
+
+
   
