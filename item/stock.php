@@ -143,4 +143,16 @@ class Stock {
     {
         return array_key_exists($user->getId(),$this->reserved);
     }
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function getUserReservedTitle(User $user)
+    {
+        if (array_key_exists($user->getId(),$this->reserved))
+        {
+            return $this->reserved[$user->getId()]->getName();
+        }
+        return null;
+    }
 }

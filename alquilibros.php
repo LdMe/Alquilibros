@@ -9,17 +9,22 @@ class Alquilibros
 	/**
 	 * @var Stock
 	 */
-	private $books;
+	protected $books;
 	/**
 	 * @var Stock
 	 */
-	private $dvds;
+	protected $dvds;
 	/**
 	 * @var array
 	 */
-	private $employees = [];
+	protected $employees = [];
 
-    private $ageRanges = [];
+    protected $ageRanges = [];
+    /**
+     * @var User
+     */
+    protected $intUser = null;
+
 
     public function __construct()
     {
@@ -242,6 +247,4 @@ class Alquilibros
             return "Error desconocido.\n";
         }
     }
-
-   
 }
